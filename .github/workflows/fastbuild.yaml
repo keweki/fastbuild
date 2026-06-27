@@ -1,4 +1,4 @@
-name: fastbuild ubi2-oc, ubi2, snapshot
+name: fastbuild ubi2, snapshot
 on: workflow_dispatch
 permissions: write-all
 jobs:
@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     strategy:
       fail-fast: false
-      matrix: {target: [ubi2-oc, ubi2, SNAPSHOT]}
+      matrix: {target: [ubi2]}
     env:
       CID: ${{ github.event.repository.name }}
       DK_OPENWRT: /bld/openwrt
