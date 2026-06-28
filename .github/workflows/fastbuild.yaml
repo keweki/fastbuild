@@ -114,7 +114,7 @@ jobs:
       run: |
         sudo chown -R "$(id -u):$(id -g)" openwrt_bin stcache
         find -L openwrt_bin/targets/*/* -maxdepth 1 -type f -exec install -D -t firmware {} +
-        VERSION="${{ matrix.target }}_$(date +'%Y.%m.%d')_$(jq -r '.version_code' firmware/profiles.json)"
+        VERSION="${{ matrix.target }}_$(date +'%Y.%m.%d')-b${{ github.run_number }}_$(jq -r '.version_code' firmware/profiles.json)"
         sed -i "s/^/    /; 1s/^/## $VERSION\n\n/" openwrt_bin/build_info
         #gh release list --json tagName --jq '.[].tagName' | grep "^${{ matrix.target }}_" | xargs -r gh release delete --cleanup-tag -y || true
         gh release create $VERSION firmware/*sysupgrade.itb --title $VERSION --notes-file openwrt_bin/build_info
