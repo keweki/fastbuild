@@ -1,0 +1,32 @@
+name: 🔄 Sync Fastbuild Upstream
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rebase-fastbuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Fork
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+
+      - name: Rebase and Push
+        run: |
+          git remote add upstream https://github.com/w1700k/fastbuild.git
+          git fetch upstream main
+          
+          # Tente le rebase automatique sous tes modifications (CGI, workflows...)
+          git rebase upstream/main
+          
+          # Force le push pour nettoyer l'affichage de ton GitHub
+          git push origin main --force
